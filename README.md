@@ -26,19 +26,19 @@ For Windows, the openssl command doesn't terminate and the process hangs. A work
 1. Configure the domains by editing the config.yml file in `<MACHINE_AGENT_HOME>/monitors/SslCertificateMonitor/`.
 
     ```
-        domains:
-          - domain: "www.google.com"
-            port: 443
-            displayName: "Google"
+    domains:
+      - domain: "www.google.com"
+        port: 443
+        displayName: "Google"
 
-          - domain: "www.ebay.com"
-            port: 443
-            displayName: "eBay"
-
-
+      - domain: "www.ebay.com"
+        port: 443
+        displayName: "eBay"
 
 
-        metricPrefix:  "Custom Metrics|SslCertificate|"
+    # Point to .sh for unix based and .bat for windows
+    cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
+    metricPrefix:  "Custom Metrics|SslCertificate|"
     ```
 
 
@@ -52,8 +52,7 @@ For Windows, the openssl command doesn't terminate and the process hangs. A work
         </task-arguments>
     ```
 
-3. Configure the openssl command in `<MACHINE_AGENT_HOME>/monitors/SslCertificateMonitor/openssl.sh` for unix based environments or `<<MACHINE_AGENT_HOME>/monitors/SslCertificateMonitor/openssl.bat`
-for Windows.
+3. If needed, configure the openssl command in the cmdFile pointed by config.yml.
 
 ## Contributing ##
 

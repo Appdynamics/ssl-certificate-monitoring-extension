@@ -8,6 +8,6 @@ domains:
     displayName: "eBay"
 
 
-
+# Point to .sh for unix based and .bat for windows
 cmdFile: "./cmd/openssl.sh"
 metricPrefix:  "Custom Metrics|SslCertificate|"
