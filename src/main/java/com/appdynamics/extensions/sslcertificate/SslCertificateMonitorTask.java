@@ -56,6 +56,9 @@ public class SslCertificateMonitorTask implements Callable<SslCertificateMetrics
         try {
             String expiryDate = null;
             Process p = Runtime.getRuntime().exec(commandFile + " " + domain + " " + port);
+            // Executing it in a separate thread as for Unix (if echo not used in open ssl command) and Windows
+            // the openssl s_client command doesn't return. By executing it in a separate thread we can put
+            // a timeout on the thread itself and collect the data from the result.
             Future<Process> futureProcess = threadPool.submit(new CommandWaiter(p));
             try {
                 p = futureProcess.get(10, TimeUnit.SECONDS);

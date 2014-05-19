@@ -12,9 +12,6 @@ DaysToExpiry
 
 Please make sure that the machine has OpenSSL installed. Windows users can download it from https://www.openssl.org/related/binaries.html
 
-## Known issues ##
-
-For Windows, the openssl command doesn't terminate and the process hangs. A workaround could be to install cygwin, update the openssl.bat file and then use the extension.
 
 ## Installation ##
 
