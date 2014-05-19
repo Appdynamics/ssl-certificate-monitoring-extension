@@ -139,7 +139,10 @@
                                 <copy todir="${target.dir}">
                                     <fileset dir="src/main/resources/conf" includes="monitor.xml"/>
                                     <fileset dir="src/main/resources/conf" includes="config.yml"/>
-                                    <fileset dir="cmd" includes="*"/>
+                                </copy>
+                                <mkdir dir="${target.dir}/cmd"/>
+                                <copy todir="${target.dir}/cmd">
+                                    <fileset dir="cmd"/>
                                 </copy>
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>

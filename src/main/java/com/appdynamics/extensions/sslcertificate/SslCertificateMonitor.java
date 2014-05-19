@@ -140,7 +140,7 @@ public class SslCertificateMonitor extends AManagedMonitor {
 
     private List<Future<SslCertificateMetrics>> createConcurrentTasks(Configuration config) throws Exception{
         List<Future<SslCertificateMetrics>> parallelTasks = new ArrayList<Future<SslCertificateMetrics>>();
-        String commandFile = getCommandFile();
+        String commandFile = getConfigFilename(config.getCmdFile());
         if(config != null && config.getDomains() != null){
             for(Domain domain : config.getDomains()){
                 SslCertificateMonitorTask monitorTask = new SslCertificateMonitorTask(domain,commandFile);
@@ -150,13 +150,6 @@ public class SslCertificateMonitor extends AManagedMonitor {
         return parallelTasks;
     }
 
-    private String getCommandFile() {
-        String path = "." + File.separator + "cmd" + File.separator;
-        if(SystemUtil.isWindows()){
-            return path + "openssl.bat";
-        }
-        return  path + "openssl.sh";
-    }
 
     public static String getImplementationVersion() {
         return SslCertificateMonitor.class.getPackage().getImplementationTitle();

@@ -9,5 +9,5 @@ domains:
 
 
 
-
+cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
 metricPrefix:  "Custom Metrics|SslCertificate|"

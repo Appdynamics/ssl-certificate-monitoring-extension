@@ -25,10 +25,19 @@ import java.util.List;
 public class Configuration {
 
     String metricPrefix;
+    String cmdFile;
     List<Domain> domains = new ArrayList<Domain>();
 
     public String getMetricPrefix() {
         return metricPrefix;
+    }
+
+    public String getCmdFile() {
+        return cmdFile;
+    }
+
+    public void setCmdFile(String cmdFile) {
+        this.cmdFile = cmdFile;
     }
 
     public void setMetricPrefix(String metricPrefix) {
