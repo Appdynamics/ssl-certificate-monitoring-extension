@@ -1,0 +1,13 @@
+domains:
+  - domain: "www.google.com"
+    port: 443
+    displayName: "Google"
+
+  - domain: "www.ebay.com"
+    port: 443
+    displayName: "eBay"
+
+
+
+
+metricPrefix:  "Custom Metrics|SslCertificate|"
