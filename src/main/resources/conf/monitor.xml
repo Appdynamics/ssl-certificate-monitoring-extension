@@ -5,8 +5,7 @@
     <monitor-configuration></monitor-configuration>
     <monitor-run-task>
         <execution-style>periodic</execution-style>
-        <!-- Executing the script twice a day -->
-        <execution-frequency-in-seconds>43200</execution-frequency-in-seconds>
+        <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
         <name>SSL Certificate Monitor Run task</name>
         <display-name>SSL Certificate Monitor Run task</display-name>
         <description>This extension monitors the SSL certificates for the configurable domains.</description>

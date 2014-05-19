@@ -83,7 +83,7 @@ public class SslCertificateMonitor extends AManagedMonitor {
         for (Future<SslCertificateMetrics> aParallelTask : parallelTasks) {
             SslCertificateMetrics certMetricsForDomain = null;
             try {
-                certMetricsForDomain = aParallelTask.get(10, TimeUnit.SECONDS);
+                certMetricsForDomain = aParallelTask.get(60, TimeUnit.SECONDS);
                 allMetrics.add(certMetricsForDomain);
             } catch (InterruptedException e) {
                 logger.error(getLogPrefix() + "Task interrupted." + e);

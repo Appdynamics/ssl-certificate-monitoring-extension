@@ -12,8 +12,8 @@ public class SystemUtilTest {
 
 
     @Test
-    public void canGetSSLExpiryDate() throws IOException, InterruptedException {
-        String expiryDate = SystemUtil.getSSLCertificateExpirationDate("www.target.com",443,"./cmd/openssl.sh");
+    public void canParseExpiryDate() throws IOException, InterruptedException {
+        String expiryDate = "Aug  7 23:12:23 2014 GMT";
         Assert.assertNotNull(expiryDate);
         DateTime dt = SystemUtil.parseDate(expiryDate);
         Assert.assertNotNull(dt);

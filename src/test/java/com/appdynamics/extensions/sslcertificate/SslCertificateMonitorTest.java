@@ -12,7 +12,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class SslCertificateMonitorTest {
 
-    SslCertificateMonitor monitor = new SslCertificateMonitor(2);
+    SslCertificateMonitor monitor = new SslCertificateMonitor(5);
 
     @Test
     public void testSslCertificateMonitor() throws TaskExecutionException {
