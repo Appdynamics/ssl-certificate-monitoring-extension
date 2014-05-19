@@ -151,7 +151,7 @@ public class SslCertificateMonitor extends AManagedMonitor {
     }
 
     private String getCommandFile() {
-        String path = "." + File.separator + "commands" + File.separator;
+        String path = "." + File.separator + "cmd" + File.separator;
         if(SystemUtil.isWindows()){
             return path + "openssl.bat";
         }

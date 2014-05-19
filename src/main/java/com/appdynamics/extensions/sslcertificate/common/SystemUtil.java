@@ -75,18 +75,4 @@ public class SystemUtil {
     }
 
 
-
-    /**
-     * Creating the command string
-     *   For Unix Systems ::
-         *      echo | openssl s_client -connect www.target.com:443 2>/dev/null | openssl x509 -noout -enddate
-     *   For Windows ::
-     *      echo | openssl s_client -connect www.target.com:443 2> null | openssl x509 -noout -enddate \n
-     * @param domain
-     * @param port
-     * @return
-     */
-    private static String getOpenSSLCommandToCertificateExpiry(String domain, int port) {
-       return "./commands/openssl.sh " + domain + " " + port;
-    }
 }
