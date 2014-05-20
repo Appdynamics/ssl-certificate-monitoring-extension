@@ -65,7 +65,7 @@ public class SslCertificateMonitorTask implements Callable<SslCertificateMetrics
             } catch (ExecutionException e) {
                 logger.error("Error executing openssl command:" + e);
             } catch (TimeoutException e) {
-                logger.error("Timed out openssl command" + e);
+                //logger.error("Timed out openssl command" + e);
             }
             if(p != null) {
                 b = new BufferedReader(new InputStreamReader(p.getInputStream()));
