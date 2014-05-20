@@ -52,6 +52,9 @@ You can also change the frequency at which the MachineAgent calls the extension 
 
 3. If needed, configure the openssl command in the cmdFile pointed by config.yml.
 
+## Custom Dashboard ##
+![](https://raw.githubusercontent.com/Appdynamics/ssl-certificate-monitoring-extension/master/ssl-certificate.png)
+
 ## Contributing ##
 
 Always feel free to fork and contribute any changes directly via [GitHub][].
