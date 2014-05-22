@@ -33,7 +33,7 @@ public class SslCertificateMonitor extends AManagedMonitor {
     public static final String METRIC_SEPARATOR = "|";
     public static final String LOG_PREFIX = "log-prefix";
     private static final int DEFAULT_NUMBER_OF_THREADS = 10;
-    public static final int DEFAULT_THREAD_TIMEOUT = 40;
+    public static final int DEFAULT_THREAD_TIMEOUT = 30;
 
     private static String logPrefix;
     private ExecutorService threadPool;
