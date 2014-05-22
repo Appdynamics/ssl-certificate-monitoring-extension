@@ -20,6 +20,9 @@ Please make sure that the machine has OpenSSL installed. Windows users can downl
 
 ## Configuration ##
 
+###Note
+Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
+
 1. Configure the domains by editing the config.yml file in `<MACHINE_AGENT_HOME>/monitors/SslCertificateMonitor/`.
 
     ```
@@ -36,6 +39,12 @@ Please make sure that the machine has OpenSSL installed. Windows users can downl
     # Point to .sh for unix based and .bat for windows
     cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
     metricPrefix:  "Custom Metrics|SslCertificate|"
+
+    # number of concurrent tasks
+    numberOfThreads: 10
+
+    #timeout for the thread
+    threadTimeout: 30
     ```
 
 

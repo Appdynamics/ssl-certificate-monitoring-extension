@@ -29,25 +29,23 @@ import java.util.concurrent.*;
 public class SslCertificateMonitor extends AManagedMonitor {
 
     public static final Logger logger = Logger.getLogger(SslCertificateMonitor.class);
-    private static final int NUMBER_OF_THREADS = 10;
     public static final String CONFIG_ARG = "config-file";
     public static final String METRIC_SEPARATOR = "|";
     public static final String LOG_PREFIX = "log-prefix";
+    private static final int DEFAULT_NUMBER_OF_THREADS = 10;
+    public static final int DEFAULT_THREAD_TIMEOUT = 40;
 
     private static String logPrefix;
     private ExecutorService threadPool;
     //To load the config files
     private final static ConfigUtil<Configuration> configUtil = new ConfigUtil<Configuration>();
 
-    public SslCertificateMonitor(){
-        this(NUMBER_OF_THREADS);
-    }
 
-    public SslCertificateMonitor(int numOfThreads){
+
+    public SslCertificateMonitor(){
         String msg = "Using Monitor Version [" + getImplementationVersion() + "]";
         logger.info(msg);
         System.out.println(msg);
-        threadPool = Executors.newFixedThreadPool(numOfThreads);
     }
 
     public TaskOutput execute(Map<String, String> taskArgs, TaskExecutionContext taskExecutionContext) throws TaskExecutionException {
@@ -61,10 +59,11 @@ public class SslCertificateMonitor extends AManagedMonitor {
             try {
                 //read the config.
                 Configuration config = configUtil.readConfig(configFilename, Configuration.class);
+                threadPool = Executors.newFixedThreadPool(config.getNumberOfThreads() == 0 ? DEFAULT_NUMBER_OF_THREADS : config.getNumberOfThreads());
                 //create parallel tasks to get the ssl certificate for each domain
                 List<Future<SslCertificateMetrics>> parallelTasks = createConcurrentTasks(config);
                 //collect the metrics
-                List<SslCertificateMetrics> sslCertMetrics = collectMetrics(parallelTasks);
+                List<SslCertificateMetrics> sslCertMetrics = collectMetrics(parallelTasks,config.getThreadTimeout() == 0 ? DEFAULT_THREAD_TIMEOUT : config.getThreadTimeout());
                 //print the metrics
                 printStats(config, sslCertMetrics);
                 return new TaskOutput(getLogPrefix() + "SSL Certificate monitoring task completed successfully.");
@@ -78,12 +77,12 @@ public class SslCertificateMonitor extends AManagedMonitor {
         throw new TaskExecutionException(getLogPrefix() + "SSL Certificate monitoring task completed with failures.");
     }
 
-    private List<SslCertificateMetrics> collectMetrics(List<Future<SslCertificateMetrics>> parallelTasks) {
+    private List<SslCertificateMetrics> collectMetrics(List<Future<SslCertificateMetrics>> parallelTasks,int timeout) {
         List<SslCertificateMetrics> allMetrics = new ArrayList<SslCertificateMetrics>();
         for (Future<SslCertificateMetrics> aParallelTask : parallelTasks) {
             SslCertificateMetrics certMetricsForDomain = null;
             try {
-                certMetricsForDomain = aParallelTask.get(60, TimeUnit.SECONDS);
+                certMetricsForDomain = aParallelTask.get(timeout, TimeUnit.SECONDS);
                 allMetrics.add(certMetricsForDomain);
             } catch (InterruptedException e) {
                 logger.error(getLogPrefix() + "Task interrupted." + e);

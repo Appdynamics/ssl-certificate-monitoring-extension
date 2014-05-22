@@ -27,6 +27,8 @@ public class Configuration {
     String metricPrefix;
     String cmdFile;
     List<Domain> domains = new ArrayList<Domain>();
+    private int threadTimeout;
+    private int numberOfThreads;
 
     public String getMetricPrefix() {
         return metricPrefix;
@@ -50,6 +52,22 @@ public class Configuration {
 
     public void setDomains(List<Domain> domains) {
         this.domains = domains;
+    }
+
+    public int getThreadTimeout() {
+        return threadTimeout;
+    }
+
+    public void setThreadTimeout(int threadTimeout) {
+        this.threadTimeout = threadTimeout;
+    }
+
+    public int getNumberOfThreads() {
+        return numberOfThreads;
+    }
+
+    public void setNumberOfThreads(int numberOfThreads) {
+        this.numberOfThreads = numberOfThreads;
     }
 }
 

@@ -11,3 +11,9 @@ domains:
 # Point to .sh for unix based and .bat for windows
 cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
 metricPrefix:  "Custom Metrics|SslCertificate|"
+
+# number of concurrent tasks
+numberOfThreads: 10
+
+#timeout for the thread
+threadTimeout: 30
