@@ -7,6 +7,7 @@ This extension monitors the SSL certificates for configurable domains.
 
 DaysToExpiry
 
+In case of error, DaysToExpiry = -1
 
 ## Prerequisites ##
 
