@@ -1,7 +1,7 @@
 domains:
-  - domain: "www.google.com"
+  - domain: "myappdynamics"
     port: 443
-    displayName: "Google"
+    displayName: "myAppD"
 
   - domain: "www.ebay.com"
     port: 443

@@ -71,6 +71,10 @@ public class SslCertificateMonitor extends AManagedMonitor {
                 logger.error(getLogPrefix() + "Config file not found :: " + configFilename, e);
             } catch (Exception e) {
                 logger.error(getLogPrefix() + "Metrics collection failed", e);
+            } finally {
+                if(!threadPool.isShutdown()){
+                    threadPool.shutdown();
+                }
             }
         }
 
