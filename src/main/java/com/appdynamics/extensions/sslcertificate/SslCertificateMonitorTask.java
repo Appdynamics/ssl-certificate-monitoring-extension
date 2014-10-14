@@ -85,6 +85,9 @@ public class SslCertificateMonitorTask implements Callable<SslCertificateMetrics
             if(b != null){
                 b.close();
             }
+            if(threadPool.isShutdown()){
+                threadPool.shutdown();
+            }
         }
     }
 
