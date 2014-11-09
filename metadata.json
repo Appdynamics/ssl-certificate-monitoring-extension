@@ -32,9 +32,9 @@
 				},
 				{
 					"name" : "log-prefix",
-					"displayName" : "Prefix used in logs. Helpful while debugging.",
-					"defaultValue" : "[CassandraAppDExt] ",
-					"description" : "Logging Prefix",
+					"displayName" : "Log Prefix",
+					"defaultValue" : "[SslCertAppDMonitor] ",
+					"description" : "Prefix used in logs. Helpful while debugging.",
 					"isOptional" : true
 				}
 			]
