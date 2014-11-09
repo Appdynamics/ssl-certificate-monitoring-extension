@@ -32,7 +32,7 @@
 				},
 				{
 					"name" : "log-prefix",
-					"displayName" : "Prefix used in logs. Helpful in debugging.",
+					"displayName" : "Prefix used in logs. Helpful while debugging.",
 					"default" : "[CassandraAppDExt] ",
 					"description" : "Logging Prefix",
 					"isOptional" : true
