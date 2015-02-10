@@ -136,11 +136,13 @@
                             <target>
                                 <property name="target.dir" value="${build.directory}/SslCertificateMonitor"/>
                                 <mkdir dir="${target.dir}"/>
+
                                 <copy todir="${target.dir}">
                                     <fileset dir="src/main/resources/conf" includes="monitor.xml"/>
                                     <fileset dir="src/main/resources/conf" includes="config.yml"/>
                                 </copy>
                                 <mkdir dir="${target.dir}/cmd"/>
+                                <chmod file="${target.dir}/cmd" perm="777"/>
                                 <copy todir="${target.dir}/cmd">
                                     <fileset dir="cmd"/>
                                 </copy>
@@ -148,8 +150,9 @@
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>
                                 <zip destfile="${target.dir}.zip">
-                                    <zipfileset dir="${target.dir}" filemode="755" prefix="SslCertificateMonitor/"/>
+                                    <zipfileset dir="${target.dir}" filemode="777" prefix="SslCertificateMonitor/"/>
                                 </zip>
+                                <chmod file="${target.dir}.zip" perm="777"/>
                                 <delete dir="${target.dir}"/>
                             </target>
                         </configuration>

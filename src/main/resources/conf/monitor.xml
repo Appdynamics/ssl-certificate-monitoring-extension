@@ -1,5 +1,5 @@
 <monitor>
-    <name>ssl-certificate-monitor</name>
+    <name>SslCertificateMonitor</name>
     <type>managed</type>
     <description>SSL Certificate Monitoring Extension</description>
     <monitor-configuration></monitor-configuration>
