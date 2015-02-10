@@ -17,7 +17,7 @@ public class SslCertificateMonitorTest {
     @Test
     public void testSslCertificateMonitor() throws TaskExecutionException {
         Map<String,String> taskArgs = Maps.newHashMap();
-        taskArgs.put("config-file","src/test/resources/conf/config.yml");
+        taskArgs.put("config-file","src/test/resources/conf/config.yaml");
         TaskOutput output = monitor.execute(taskArgs, null);
         assertTrue(output.getStatusMessage().contains("successfully"));
     }

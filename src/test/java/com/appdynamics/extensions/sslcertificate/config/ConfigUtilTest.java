@@ -14,7 +14,7 @@ public class ConfigUtilTest {
 
     @Test
     public void loadConfigSuccessfully() throws FileNotFoundException {
-        Configuration configuration = configUtil.readConfig(this.getClass().getResource("/conf/config.yml").getFile(),Configuration.class);
+        Configuration configuration = configUtil.readConfig(this.getClass().getResource("/conf/config.yaml").getFile(),Configuration.class);
         Assert.assertTrue(configuration != null);
     }
 }
