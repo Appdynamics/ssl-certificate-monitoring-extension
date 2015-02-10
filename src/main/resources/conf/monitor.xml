@@ -14,7 +14,6 @@
         <task-arguments>
             <!-- config file-->
             <argument name="config-file" is-required="true" default-value="monitors/SslCertificateMonitor/config.yml" />
-            <argument name="log-prefix" is-required="false" default-value="[SslCertificateAppDExt] " />
         </task-arguments>
         <java-task>
             <classpath>ssl-certificate-monitoring-extension.jar</classpath>

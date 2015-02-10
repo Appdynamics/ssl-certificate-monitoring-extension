@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>ssl-certificate-monitoring-extension</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -147,7 +147,7 @@
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>
-                                <zip destfile="${target.dir}-${project.version}.zip">
+                                <zip destfile="${target.dir}.zip">
                                     <zipfileset dir="${target.dir}" filemode="755" prefix="SslCertificateMonitor/"/>
                                 </zip>
                                 <delete dir="${target.dir}"/>

@@ -31,11 +31,9 @@ public class SslCertificateMonitor extends AManagedMonitor {
     public static final Logger logger = Logger.getLogger(SslCertificateMonitor.class);
     public static final String CONFIG_ARG = "config-file";
     public static final String METRIC_SEPARATOR = "|";
-    public static final String LOG_PREFIX = "log-prefix";
     private static final int DEFAULT_NUMBER_OF_THREADS = 10;
     public static final int DEFAULT_THREAD_TIMEOUT = 30;
 
-    private static String logPrefix;
     private ExecutorService threadPool;
     //To load the config files
     private final static ConfigUtil<Configuration> configUtil = new ConfigUtil<Configuration>();
@@ -50,10 +48,9 @@ public class SslCertificateMonitor extends AManagedMonitor {
 
     public TaskOutput execute(Map<String, String> taskArgs, TaskExecutionContext taskExecutionContext) throws TaskExecutionException {
         if(taskArgs != null) {
-            setLogPrefix(taskArgs.get(LOG_PREFIX));
-            logger.info(getLogPrefix() + " Starting the SSL Certificate Monitoring task.");
+            logger.info(" Starting the SSL Certificate Monitoring task.");
             if (logger.isDebugEnabled()) {
-                logger.debug(getLogPrefix() + "Task Arguments Passed ::" + taskArgs);
+                logger.debug("Task Arguments Passed ::" + taskArgs);
             }
             String configFilename = getConfigFilename(taskArgs.get(CONFIG_ARG));
             try {
@@ -66,11 +63,11 @@ public class SslCertificateMonitor extends AManagedMonitor {
                 List<SslCertificateMetrics> sslCertMetrics = collectMetrics(parallelTasks,config.getThreadTimeout() == 0 ? DEFAULT_THREAD_TIMEOUT : config.getThreadTimeout());
                 //print the metrics
                 printStats(config, sslCertMetrics);
-                return new TaskOutput(getLogPrefix() + "SSL Certificate monitoring task completed successfully.");
+                return new TaskOutput("SSL Certificate monitoring task completed successfully.");
             } catch (FileNotFoundException e) {
-                logger.error(getLogPrefix() + "Config file not found :: " + configFilename, e);
+                logger.error("Config file not found :: " + configFilename, e);
             } catch (Exception e) {
-                logger.error(getLogPrefix() + "Metrics collection failed", e);
+                logger.error("Metrics collection failed", e);
             } finally {
                 if(!threadPool.isShutdown()){
                     threadPool.shutdown();
@@ -78,7 +75,7 @@ public class SslCertificateMonitor extends AManagedMonitor {
             }
         }
 
-        throw new TaskExecutionException(getLogPrefix() + "SSL Certificate monitoring task completed with failures.");
+        throw new TaskExecutionException("SSL Certificate monitoring task completed with failures.");
     }
 
     private List<SslCertificateMetrics> collectMetrics(List<Future<SslCertificateMetrics>> parallelTasks,int timeout) {
@@ -89,11 +86,11 @@ public class SslCertificateMonitor extends AManagedMonitor {
                 certMetricsForDomain = aParallelTask.get(timeout, TimeUnit.SECONDS);
                 allMetrics.add(certMetricsForDomain);
             } catch (InterruptedException e) {
-                logger.error(getLogPrefix() + "Task interrupted." + e);
+                logger.error("Task interrupted." + e);
             } catch (ExecutionException e) {
-                logger.error(getLogPrefix() + "Task execution failed." + e);
+                logger.error("Task execution failed." + e);
             } catch (TimeoutException e) {
-                logger.error(getLogPrefix() + "Task timed out." + e);
+                logger.error("Task timed out." + e);
             }
         }
         return allMetrics;
@@ -132,10 +129,10 @@ public class SslCertificateMonitor extends AManagedMonitor {
                 timeRollupType,
                 clusterRollupType
         );
-           System.out.println(getLogPrefix()+"Sending [" + aggType + METRIC_SEPARATOR + timeRollupType + METRIC_SEPARATOR + clusterRollupType
+           System.out.println("Sending [" + aggType + METRIC_SEPARATOR + timeRollupType + METRIC_SEPARATOR + clusterRollupType
                     + "] metric = " + metricPath + " = " + metricValue);
         if (logger.isDebugEnabled()) {
-            logger.debug(getLogPrefix() + "Sending [" + aggType + METRIC_SEPARATOR + timeRollupType + METRIC_SEPARATOR + clusterRollupType
+            logger.debug("Sending [" + aggType + METRIC_SEPARATOR + timeRollupType + METRIC_SEPARATOR + clusterRollupType
                     + "] metric = " + metricPath + " = " + metricValue);
         }
         metricWriter.printMetric(metricValue);
@@ -178,14 +175,6 @@ public class SslCertificateMonitor extends AManagedMonitor {
             configFileName = jarPath + File.separator + filename;
         }
         return configFileName;
-    }
-
-    public String getLogPrefix() {
-        return logPrefix;
-    }
-
-    public void setLogPrefix(String logPrefix) {
-        this.logPrefix = (logPrefix != null) ? logPrefix : "";
     }
 
 
