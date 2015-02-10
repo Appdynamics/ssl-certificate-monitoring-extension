@@ -4,20 +4,13 @@
 	"displayName" : "SSL Certificate Extension",
 	"description" : "An AppDynamics extension that monitors the SSL certificates for configurable domains and should be used with a stand alone Java Machine Agent.",
 	"version" : "1.0.4",
-	"downloadLink" : "https://github.com/Appdynamics/ssl-certificate-monitoring-extension",
+	"downloadLink" : "https://github.com/Appdynamics/ssl-certificate-monitoring-extension/releases/download/1.0.4/SslCertificateMonitor.zip",
 	"imageLink" : "https://no-cache.appdynamics-static.com/appsphere/logos/ssl_128.png",
 	"defaultConfigs" : [
 		{
 			"name" : "monitor.xml",
 			"link" : "https://raw.githubusercontent.com/Appdynamics/ssl-certificate-monitoring-extension/master/src/main/resources/conf/monitor.xml",
 			"args" : [
-				{
-                    "name" : "execution-style",
-                    "displayName" : "Execution Style",
-                    "defaultValue" : "periodic",
-                    "description" : "The data to be reported from system performance counters periodically.",
-                    "required" : true
-                },
 				{
 					"name" : "execution-frequency-in-seconds",
 					"displayName" : "Execution Frequency",
@@ -31,13 +24,6 @@
 					"defaultValue" : "60",
 					"description" : "Determines the execution timeout in seconds.",
 					"required" : true
-				},
-				{
-					"name" : "log-prefix",
-					"displayName" : "Log Prefix",
-					"defaultValue" : "[SslCertAppDMonitor] ",
-					"description" : "Prefix used in logs. Helpful while debugging.",
-					"required" : false
 				}
 			]
 		},
