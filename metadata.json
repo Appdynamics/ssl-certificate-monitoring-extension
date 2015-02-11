@@ -3,8 +3,8 @@
 	"type" : "monitor",
 	"displayName" : "SSL Certificate Extension",
 	"description" : "An AppDynamics extension that monitors the SSL certificates for configurable domains and should be used with a stand alone Java Machine Agent.",
-	"version" : "1.0.4",
-	"downloadLink" : "https://github.com/Appdynamics/ssl-certificate-monitoring-extension/releases/download/1.0.4/SslCertificateMonitor.zip",
+	"version" : "1.0.5",
+	"downloadLink" : "https://github.com/Appdynamics/ssl-certificate-monitoring-extension/releases/download/1.0.5/SslCertificateMonitor.zip",
 	"imageLink" : "https://no-cache.appdynamics-static.com/appsphere/logos/ssl_128.png",
 	"defaultConfigs" : [
 		{

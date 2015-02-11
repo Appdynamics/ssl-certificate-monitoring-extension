@@ -7,6 +7,10 @@ domains:
     port: 443
     displayName: "eBay"
 
+  - domain: "www.google.com"
+    port: 443
+    displayName: "google"
+
 
 # Point to .sh for unix based and .bat for windows
 cmdFile: "./cmd/openssl.sh"
