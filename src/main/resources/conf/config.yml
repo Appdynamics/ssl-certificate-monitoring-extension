@@ -11,10 +11,6 @@ domains:
     port: 443
     displayName: "amazon"
 
-  - domain: "www.facebook.com"
-    port: 443
-    displayName: "facebook"
-
 # Point to .sh for unix based and .bat for windows
 cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
 metricPrefix:  "Custom Metrics|SslCertificate|"
