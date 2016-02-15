@@ -3,7 +3,7 @@ package com.appdynamics.extensions.sslcertificate;
 
 public class SslCertificateMetrics {
     public static final int DEFAULT_VALUE = -1;
-    public static final String DAYS_TO_EXPIRY = "Days to Certificate Expiration";
+    public static final String DAYS_TO_EXPIRY = "days_till_certificate_expiration";
 
     private String displayName;
     private int daysLeftToExpiry = DEFAULT_VALUE;
