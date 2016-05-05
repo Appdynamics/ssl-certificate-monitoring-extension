@@ -1,3 +1,11 @@
+### ANY CHANGES TO THIS FILE DOES NOT REQUIRE A RESTART ###
+
+#This will create this metric in all the tiers, under this path
+metricPrefix:  "Custom Metrics|SslCertificate"
+
+#This will create it in specific Tier. Replace <TIER_ID>
+#metricPrefix: Server|Component:<TIER_ID>|Custom Metrics|SslCertificate
+
 domains:
   - domain: "www.google.com"
     port: 443
@@ -11,12 +19,17 @@ domains:
     port: 443
     displayName: "amazon"
 
-# Point to .sh for unix based and .bat for windows
+# Point to .sh for unix based and .bat for windows.
+# Incase if you are using Cygwin's openssl, please make sure to change the openssl.bat to point to Cygwin's openssl.
+# For eg. echo | C:\Cygwin64\bin\openssl s_client -connect %1:%2 2> null | C:\Cygwin64\bin\openssl x509 -noout -enddate
 cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
-metricPrefix:  "Custom Metrics|SslCertificate|"
+#cmdFile: "monitors\\SslCertificateMonitor\\cmd\\openssl.bat"
+
+
+
 
 # number of concurrent tasks
 numberOfThreads: 10
 
 #timeout for the thread
-threadTimeout: 30
+threadTimeout: 5

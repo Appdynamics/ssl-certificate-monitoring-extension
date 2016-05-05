@@ -5,14 +5,13 @@ This extension monitors the SSL certificates for configurable domains.
 
 ## Metrics Provided ##
 
-DaysToExpiry
+daysToExpiry
 
-In case of error, DaysToExpiry = -1
 
 ## Prerequisites ##
 
 Please make sure that the machine has OpenSSL installed. Windows users can download it from https://www.openssl.org/related/binaries.html
-
+There is a bug in the windows openssl where in the command execution hangs. Please down Cygwin openssl on Windows.
 
 ## Installation ##
 
@@ -26,26 +25,36 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
 
 1. Configure the domains by editing the config.yml file in `<MACHINE_AGENT_HOME>/monitors/SslCertificateMonitor/`.
 
-    ```
-    domains:
-      - domain: "www.google.com"
-        port: 443
-        displayName: "Google"
+     ```
 
-      - domain: "www.ebay.com"
-        port: 443
-        displayName: "eBay"
+        #This will create this metric in all the tiers, under this path
+        metricPrefix:  "Custom Metrics|SslCertificate"
 
+        #This will create it in specific Tier. Replace <TIER_ID>
+        #metricPrefix: Server|Component:<TIER_ID>|Custom Metrics|SslCertificate
 
-    # Point to .sh for unix based and .bat for windows
-    cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
-    metricPrefix:  "Custom Metrics|SslCertificate|"
+        domains:
+          - domain: "www.google.com"
+            port: 443
+            displayName: "Google"
 
-    # number of concurrent tasks
-    numberOfThreads: 10
+          - domain: "www.ebay.com"
+            port: 443
+            displayName: "eBay"
 
-    #timeout for the thread
-    threadTimeout: 30
+          - domain: "www.amazon.com"
+            port: 443
+            displayName: "amazon"
+
+        # Point to .sh for unix based and .bat for windows.
+        #cmdFile: "monitors\\SslCertificateMonitor\\cmd\\openssl.bat"
+        cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
+
+        # number of concurrent tasks
+        numberOfThreads: 10
+
+        #timeout for the thread
+        threadTimeout: 5
     ```
 
 
@@ -59,6 +68,8 @@ You can also change the frequency at which the MachineAgent calls the extension 
             <argument name="log-prefix" is-required="false" default-value="[SslCertificateAppDExt] " />
         </task-arguments>
     ```
+
+    On Windows, please specify the absolute path to the config.yml.
 
 3. If needed, configure the openssl command in the cmdFile pointed by config.yml.
 
@@ -77,7 +88,7 @@ Find out more in the [AppDynamics Exchange][].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence][].
 
-**Version:** 1.0.0
+**Version:** 2.0.0
 **Controller Compatibility:** 3.7+
 
 
