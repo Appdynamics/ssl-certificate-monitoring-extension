@@ -26,8 +26,7 @@ cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
 #cmdFile: "monitors\\SslCertificateMonitor\\cmd\\openssl.bat"
 
 
-
-
+#### Configurations below this need not be changed.###
 # number of concurrent tasks
 numberOfThreads: 10
 
