@@ -1,8 +1,12 @@
-domains:
-  - domain: "myappdynamics"
-    port: 443
-    displayName: "myAppD"
+### ANY CHANGES TO THIS FILE DOES NOT REQUIRE A RESTART ###
 
+#This will create this metric in all the tiers, under this path
+metricPrefix:  "Custom Metrics|SslCertificate"
+
+#This will create it in specific Tier. Replace <TIER_ID>
+#metricPrefix: Server|Component:<TIER_ID>|Custom Metrics|SslCertificate
+
+domains:
   - domain: "www.ebay.com"
     port: 443
     displayName: "eBay"
@@ -14,11 +18,9 @@ domains:
 
 # Point to .sh for unix based and .bat for windows
 cmdFile: "./cmd/openssl.sh"
-metricPrefix:  "Custom Metrics|SslCertificate|"
-
 
 # number of concurrent tasks
 numberOfThreads: 10
 
 #timeout for the thread
-threadTimeout: 30
+threadTimeout: 5
