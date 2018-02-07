@@ -1,5 +1,5 @@
 {
-	"id" : "SslCertificateMonitor",
+	"id" : "ssl-certificate-monitor",
 	"type" : "monitor",
 	"displayName" : "SSL Certificate Extension",
 	"description" : "An AppDynamics extension that monitors the SSL certificates for configurable domains and should be used with a stand alone Java Machine Agent.",
