@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class SslCertificateProcessor implements Runnable {
 
     public static final Logger logger = LoggerFactory.getLogger(SslCertificateProcessor.class);
-    public static final String DAYS_TO_EXPIRY = "daysToExpiry";
+    public static final String DAYS_TO_EXPIRY = "days_till_certificate_expiration";
     public static final String PREFIX = "notAfter=";
 
     protected MonitorConfiguration configuration;
