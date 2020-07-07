@@ -9,7 +9,7 @@ package com.appdynamics.extensions.sslcertificate;
 
 
 import com.appdynamics.extensions.conf.MonitorConfiguration;
-import com.appdynamics.extensions.sslcertificate.common.SystemUtil;
+import com.appdynamics.extensions.sslcertificate.utils.SystemUtil;
 import com.appdynamics.extensions.util.MetricWriteHelper;
 import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import org.junit.Test;

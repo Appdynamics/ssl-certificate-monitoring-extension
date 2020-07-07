@@ -8,6 +8,7 @@
 package com.appdynamics.extensions.sslcertificate.common;
 
 
+import com.appdynamics.extensions.sslcertificate.utils.SystemUtil;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;

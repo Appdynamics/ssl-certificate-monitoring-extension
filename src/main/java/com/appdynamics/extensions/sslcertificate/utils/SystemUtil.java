@@ -5,8 +5,7 @@
  *  The copyright notice above does not evidence any actual or intended publication of such source code.
  */
 
-package com.appdynamics.extensions.sslcertificate.common;
-
+package com.appdynamics.extensions.sslcertificate.utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
