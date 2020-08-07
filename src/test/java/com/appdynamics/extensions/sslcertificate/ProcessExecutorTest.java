@@ -7,7 +7,7 @@
 
 package com.appdynamics.extensions.sslcertificate;
 
-import com.appdynamics.extensions.sslcertificate.common.SystemUtil;
+import com.appdynamics.extensions.sslcertificate.utils.SystemUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
