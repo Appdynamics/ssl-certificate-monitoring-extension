@@ -11,6 +11,7 @@ import com.appdynamics.extensions.ABaseMonitor;
 import com.appdynamics.extensions.TasksExecutionServiceProvider;
 import com.appdynamics.extensions.conf.MonitorContextConfiguration;
 import com.appdynamics.extensions.util.PathResolver;
+import com.google.common.collect.Lists;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class SslCertificateMonitor extends ABaseMonitor {
 
     @Override
     protected List<Map<String, ?>> getServers() {
-        return null;
+        return Lists.newArrayList();
     }
 
     @Override
