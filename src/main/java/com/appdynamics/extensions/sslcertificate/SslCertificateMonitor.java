@@ -7,18 +7,10 @@
 
 package com.appdynamics.extensions.sslcertificate;
 
-
-import com.appdynamics.extensions.PathResolver;
-import com.appdynamics.extensions.conf.MonitorConfiguration;
-import com.appdynamics.extensions.util.MetricWriteHelperFactory;
-import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
-import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
-import com.singularity.ee.agent.systemagent.api.TaskOutput;
-import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -26,78 +18,103 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class SslCertificateMonitor extends AManagedMonitor {
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
-    public static final Logger logger = LoggerFactory.getLogger(SslCertificateMonitor.class);
-    private volatile boolean initialized;
-    private MonitorConfiguration configuration;
+import com.appdynamics.extensions.ABaseMonitor;
+import com.appdynamics.extensions.TasksExecutionServiceProvider;
+import com.google.common.collect.Lists;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public SslCertificateMonitor(){
-        System.out.println(logVersion());
-    }
+public class SslCertificateMonitor extends ABaseMonitor {
 
-    public TaskOutput execute(Map<String, String> taskArgs, TaskExecutionContext taskExecutionContext) throws TaskExecutionException {
-        if (!initialized) {
-            initialize(taskArgs);
+    private static final Logger logger = LoggerFactory.getLogger(SslCertificateMonitor.class);
+
+    private final SSLSocketFactory sslSocketFactory;
+
+    public SslCertificateMonitor() {
+        try {
+            final SSLContext permitAllSSLContext = SSLContext.getInstance("TLS");
+            permitAllSSLContext.init(null, new TrustManager[] { PERMIT_ALL_TRUST_MANAGER }, null);
+
+            sslSocketFactory = permitAllSSLContext.getSocketFactory();
+        } catch (final NoSuchAlgorithmException e) {
+            logger.error("Unable to initialize TLS context for certificate checking", e);
+            throw new IllegalStateException("Unable to initialize TLS context for certificate checking", e);
+        } catch (final KeyManagementException e) {
+            logger.error("Key Management error while initializing TLS context for certificate checking", e);
+            throw new IllegalStateException("Key Management error while initializing TLS context for certificate checking", e);
         }
-        logger.debug("The raw arguments are {}", taskArgs);
-        configuration.executeTask();
-        return new TaskOutput("SSL Certificate Monitor Completed");
     }
 
-    protected void initialize(Map<String, String> argsMap) {
-        if (configuration == null) {
-            MonitorConfiguration conf = new MonitorConfiguration("Custom Metrics|SslCertificate",new TaskRunnable(),MetricWriteHelperFactory.create(this));
-            final String configFilePath = argsMap.get("config-file");
-            conf.setConfigYml(configFilePath);
-            conf.checkIfInitialized(MonitorConfiguration.ConfItem.METRIC_PREFIX, MonitorConfiguration.ConfItem.CONFIG_YML, MonitorConfiguration.ConfItem.EXECUTOR_SERVICE, MonitorConfiguration.ConfItem.METRIC_WRITE_HELPER);
-            this.configuration = conf;
-            this.initialized=true;
-        }
+    @Override
+    protected String getDefaultMetricPrefix() {
+        return "Custom Metrics|SslCertificate";
     }
 
-    private class TaskRunnable implements Runnable {
+    @Override
+    public String getMonitorName() {
+        return "SSLCertificateMonitor";
+    }
 
-        public void run() {
-            Map<String, ?> config = configuration.getConfigYml();
-            if (config != null) {
-                List<Map> sites = (List) config.get("domains");
-                if (sites != null && !sites.isEmpty()) {
-                    for (Map site : sites) {
-                        File installDir = PathResolver.resolveDirectory(AManagedMonitor.class);
-                        String cmdFile = (String)config.get("cmdFile");
-                        String[] command = {PathResolver.getFile(cmdFile,installDir).getPath(),(String)site.get("domain"),((Integer)site.get("port")).toString()};
-                        String displayName = (String)site.get("displayName");
-                        //create a thread with a timeout. A timeout is needed because
-                        //openssl command on windows may take forever to return. A workaround on windows is to use Cygwin's openssl.
-                        SslCertificateProcessor task = new SslCertificateProcessor(displayName,command,configuration,new ProcessExecutor());
-                        Future handle = configuration.getExecutorService().submit(task);
-                        try {
-                            handle.get(((Integer)config.get("threadTimeout")).longValue(),TimeUnit.SECONDS);
-                        } catch (InterruptedException e) {
-                            logger.error("Task interrupted for {}",displayName, e);
-                        } catch (ExecutionException e) {
-                            logger.error("Task execution failed for {}",displayName, e);
-                        } catch (TimeoutException e) {
-                            logger.error("Task timed out for {}",displayName,e);
-                        }
+    @Override
+    protected List<Map<String, ?>> getServers() {
+        return Lists.newArrayList();
+    }
+
+    @Override
+    protected void doRun(TasksExecutionServiceProvider tasksExecutionServiceProvider) {
+        final Map<String, ?> config = getContextConfiguration().getConfigYml();
+        final long threadTimeout = ((Integer)config.get("threadTimeout")).longValue();
+
+        final String metricPrefix = getContextConfiguration().getMetricPrefix();
+        
+        if (null != config) {
+            @SuppressWarnings("unchecked")
+            final List<Map<String, ?>> sites = (List<Map<String, ?>>) config.get("domains");
+            if (null != sites && !sites.isEmpty()) {
+                for (final Map<String, ?> site : sites) {
+                    final String displayName = (String) site.get("displayName");
+                    final String domain = (String) site.get("domain");
+                    final Integer port = (Integer) site.get("port");
+                    //create a thread with a timeout. A timeout is needed because
+                    //openssl command on windows may take forever to return. A workaround on windows is to use Cygwin's openssl.
+                    final SslCertificateProcessor task = new SslCertificateProcessor(
+                            metricPrefix,
+                            displayName,
+                            domain,
+                            port,
+                            sslSocketFactory,
+                            tasksExecutionServiceProvider.getMetricWriteHelper());
+                    final Future<?> handle = getContextConfiguration().getContext().getExecutorService().submit(displayName, task);
+                    try {
+                        handle.get(threadTimeout,TimeUnit.SECONDS);
+                    } catch (final InterruptedException e) {
+                        logger.error("Task interrupted for {}",displayName, e);
+                    } catch (final ExecutionException e) {
+                        logger.error("Task execution failed for {}",displayName, e);
+                    } catch (final TimeoutException e) {
+                        logger.error("Task timed out for {}",displayName,e);
                     }
                 }
             }
         }
     }
 
+    private static final X509TrustManager PERMIT_ALL_TRUST_MANAGER = new X509TrustManager() {
 
-    public static String getImplementationVersion() {
-        return SslCertificateMonitor.class.getPackage().getImplementationTitle();
-    }
+        @Override
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException { }
 
-    private String logVersion() {
-        String msg = "Using SSLCertificate Monitor Version [" + getImplementationVersion() + "]";
-        logger.info(msg);
-        return msg;
-    }
+        @Override
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException { }
 
+        @Override
+        public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
 
+    };
 }
