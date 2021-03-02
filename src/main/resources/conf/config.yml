@@ -6,8 +6,6 @@
 #This will create it in specific Tier. Replace <TIER_ID>
 metricPrefix: Server|Component:<TIER NAME OR TIER ID>|Custom Metrics|SslCertificate
 
-enableHealthChecks: false
-
 domains:
   - domain: "www.google.com"
     port: 443
