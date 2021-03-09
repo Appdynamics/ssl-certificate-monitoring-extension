@@ -114,7 +114,7 @@ Find out more in the [AppDynamics Exchange][].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence][].
 
-**Version:** 2.0.0
+**Version:** 3.0.1
 **Controller Compatibility:** 3.7+
 
 
