@@ -7,9 +7,10 @@
 
 package com.appdynamics.extensions.sslcertificate;
 
-
-import com.appdynamics.extensions.conf.MonitorConfiguration;
-import com.appdynamics.extensions.sslcertificate.common.SystemUtil;
+import com.appdynamics.extensions.AMonitorTaskRunnable;
+import com.appdynamics.extensions.MetricWriteHelper;
+import com.appdynamics.extensions.conf.MonitorContext;
+import com.appdynamics.extensions.sslcertificate.utils.SystemUtil;
 import com.google.common.base.Strings;
 import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import org.joda.time.DateTime;
@@ -17,22 +18,29 @@ import org.joda.time.Days;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SslCertificateProcessor implements Runnable {
+public class SslCertificateProcessor implements AMonitorTaskRunnable {
 
-    public static final Logger logger = LoggerFactory.getLogger(SslCertificateProcessor.class);
-    public static final String DAYS_TO_EXPIRY = "daysToExpiry";
-    public static final String PREFIX = "notAfter=";
+    private static final Logger logger = LoggerFactory.getLogger(SslCertificateProcessor.class);
+    private static final String DAYS_TO_EXPIRY = "daysToExpiry";
+    private static final String PREFIX = "notAfter=";
+    private String metricPrefix;
+    private String displayName;
+    private String[] command;
+    private MetricWriteHelper metricWriteHelper;
+    private ITaskExecutor executor;
 
-    protected MonitorConfiguration configuration;
-    protected ITaskExecutor executor;
-    protected String[] command;
-    protected String displayName;
 
-    public SslCertificateProcessor(String displayName,String[] command,MonitorConfiguration configuration,ITaskExecutor executor){
+
+    public SslCertificateProcessor(String metricPrefix,
+                                   String displayName,
+                                   String[] command,
+                                   ITaskExecutor executor,
+                                   MetricWriteHelper metricWriteHelper) {
+        this.metricPrefix = metricPrefix;
         this.displayName = displayName;
-        this.configuration = configuration;
-        this.executor = executor;
         this.command = command;
+        this.metricWriteHelper = metricWriteHelper;
+        this.executor = executor;
     }
 
     public void run() {
@@ -44,16 +52,26 @@ public class SslCertificateProcessor implements Runnable {
             DateTime dt = SystemUtil.parseDate(expiryDate);
             if(dt != null) {
                 int daysLeftToExpiry = Days.daysBetween(DateTime.now(), dt).getDays();
-                String metricPath = configuration.getMetricPrefix() + "|" + displayName + "|" + DAYS_TO_EXPIRY;
+                String metricPath = metricPrefix + "|" + displayName + "|" + DAYS_TO_EXPIRY;
                 logger.debug("Metric:{},Value:{}",metricPath,daysLeftToExpiry);
-                configuration.getMetricWriter().printMetric(metricPath,Integer.toString(daysLeftToExpiry), MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE,MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE,MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL);
+                metricWriteHelper.printMetric(metricPath,
+                        Integer.toString(daysLeftToExpiry),
+                        MetricWriter.METRIC_AGGREGATION_TYPE_AVERAGE,
+                        MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE,
+                        MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL);
             }
         }
         else{
             logger.error("Error fetching expiration date for {}",displayName);
         }
 
-        logger.debug("Time taken for ssl certificate processor for {} is {}",displayName,System.currentTimeMillis() - start);
+        logger.debug("Time taken for ssl certificate processor for {} is {}",
+                displayName,
+                System.currentTimeMillis() - start);
     }
 
+    @Override
+    public void onTaskComplete() {
+
+    }
 }
