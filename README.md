@@ -98,8 +98,8 @@ Workbench is an inbuilt feature provided with each extension in order to assist 
 3. config.yml:Validate the file here. http://www.yamllint.com/
 
 4. The config cannot be null :
-   This usually happens when on a windows machine in monitor.xml you give config.yaml file path with linux file path separator `/`.
-   Use Windows file path separator `\` e.g. `monitors\MQMonitor\config.yaml`. On Windows, please specify absolute file path.
+   This usually happens when on a windows machine in monitor.xml you give config.yml file path with linux file path separator `/`.
+   Use Windows file path separator `\` e.g. `monitors\SSLMonitor\config.yml`. On Windows, please specify absolute file path.
 
 5. Metric Limit: Please start the machine agent with the argument -Dappdynamics.agent.maxMetrics=5000 if there is a metric limit reached
    error in the logs. If you don't see the expected metrics, this could be the cause.
