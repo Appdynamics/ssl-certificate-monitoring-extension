@@ -155,6 +155,7 @@
                                 </zip>
                                 <chmod file="${target.dir}.zip" perm="777"/>
                                 <delete dir="${target.dir}"/>
+                                <checksum file="${target.dir}-${project.version}.zip" pattern="{0} {1}"/>
                             </target>
                         </configuration>
                         <goals>
