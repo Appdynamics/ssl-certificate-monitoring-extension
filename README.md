@@ -13,15 +13,17 @@ There is a bug in the windows openssl where in the command execution hangs. Plea
 
 ## Installation ##
 
-1. To build from the source, run "mvn clean install" and find the SslCertificateMonitor.zip file in the "target" folder.
+1. To build from the source, run "mvn clean install" and find the SslCertificateMonitor-VERSION.zip file in the "target" folder.
 2. Unzip as "SslCertificateMonitor" and copy the "SslCertificateMonitor" directory to `<MACHINE_AGENT_HOME>/monitors`.
+3. Edit the file config.yml located at <MachineAgent_Dir>/monitors/SslCertificateMonitor
+4. Restart the Machine Agent.
 
 Please place the extension in the "monitors" directory of your Machine Agent installation directory. Do not place the extension in the "extensions" directory of your Machine Agent installation directory.
 
 ## Configuration ##
 
-###Note
-Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
+**Note**
+Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a [yaml validator](https://jsonformatter.org/yaml-validator)
 
 1. Configure the domains by editing the config.yml file in `<MACHINE_AGENT_HOME>/monitors/SslCertificateMonitor/`.
 
@@ -95,11 +97,9 @@ Workbench is an inbuilt feature provided with each extension in order to assist 
 2. Verify Machine Agent Data: Please start the Machine Agent without the extension and make sure that it reports data.
    Verify that the machine agent status is UP and it is reporting Hardware Metrics.
 
-3. config.yml:Validate the file here. http://www.yamllint.com/
+3. config.yml: Validate the file [here](https://jsonformatter.org/yaml-validator).
 
-4. The config cannot be null :
-   This usually happens when on a windows machine in monitor.xml you give config.yml file path with linux file path separator `/`.
-   Use Windows file path separator `\` e.g. `monitors\SSLMonitor\config.yml`. On Windows, please specify absolute file path.
+4. The config cannot be null: This usually happens when on a windows machine in monitor.xml you give config.yml file path with linux file path separator `/`. Use Windows file path separator `\` e.g. `monitors\SSLMonitor\config.yml`. On Windows, please specify absolute file path.
 
 5. Metric Limit: Please start the machine agent with the argument -Dappdynamics.agent.maxMetrics=5000 if there is a metric limit reached
    error in the logs. If you don't see the expected metrics, this could be the cause.
@@ -112,10 +112,9 @@ Always feel free to fork and contribute any changes directly here on [GitHub][].
 |          Name            |  Version   |
 |--------------------------|------------|
 |Extension Version         |3.0.1       |
-|Controller Compatibility  |4.5 or Later|
-|Machine Agent Version     |4.5.13+     |
 |Last Update               |17/03/2021  |
 
+**Note**: While extensions are maintained and supported by customers under the open-source licensing model, they interact with agents and Controllers that are subject to [AppDynamics’ maintenance and support policy](https://docs.appdynamics.com/latest/en/product-and-release-announcements/maintenance-support-for-software-versions). Some extensions have been tested with AppDynamics 4.5.13+ artifacts, but you are strongly recommended against using versions that are no longer supported.
 
 [Github]: https://github.com/Appdynamics/ssl-certificate-monitoring-extension
 [AppDynamics Exchange]: http://community.appdynamics.com/t5/AppDynamics-eXchange/idb-p/extensions
