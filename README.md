@@ -111,8 +111,8 @@ Always feel free to fork and contribute any changes directly here on [GitHub][].
 ## Version
 |          Name            |  Version   |
 |--------------------------|------------|
-|Extension Version         |3.0.1       |
-|Last Update               |17/03/2021  |
+|Extension Version         |3.0.2       |
+|Last Update               |14/12/2021  |
 
 **Note**: While extensions are maintained and supported by customers under the open-source licensing model, they interact with agents and Controllers that are subject to [AppDynamics’ maintenance and support policy](https://docs.appdynamics.com/latest/en/product-and-release-announcements/maintenance-support-for-software-versions). Some extensions have been tested with AppDynamics 4.5.13+ artifacts, but you are strongly recommended against using versions that are no longer supported.
 
