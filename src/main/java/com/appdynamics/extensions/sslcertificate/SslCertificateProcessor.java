@@ -9,18 +9,17 @@ package com.appdynamics.extensions.sslcertificate;
 
 import com.appdynamics.extensions.AMonitorTaskRunnable;
 import com.appdynamics.extensions.MetricWriteHelper;
-import com.appdynamics.extensions.conf.MonitorContext;
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.appdynamics.extensions.sslcertificate.utils.SystemUtil;
 import com.google.common.base.Strings;
 import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SslCertificateProcessor implements AMonitorTaskRunnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(SslCertificateProcessor.class);
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(SslCertificateProcessor.class);
     private static final String DAYS_TO_EXPIRY = "daysToExpiry";
     private static final String PREFIX = "notAfter=";
     private String metricPrefix;

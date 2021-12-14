@@ -9,12 +9,11 @@ package com.appdynamics.extensions.sslcertificate;
 
 import com.appdynamics.extensions.ABaseMonitor;
 import com.appdynamics.extensions.TasksExecutionServiceProvider;
-import com.appdynamics.extensions.conf.MonitorContextConfiguration;
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.appdynamics.extensions.util.PathResolver;
 import com.google.common.collect.Lists;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.concurrent.TimeoutException;
 
 public class SslCertificateMonitor extends ABaseMonitor {
 
-    private static final Logger logger = LoggerFactory.getLogger(SslCertificateMonitor.class);
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(SslCertificateMonitor.class);
 
     private volatile boolean initialized;
 

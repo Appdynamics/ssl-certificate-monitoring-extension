@@ -7,16 +7,16 @@
 
 package com.appdynamics.extensions.sslcertificate.utils;
 
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class SystemUtil {
 
-    public static final Logger logger = LoggerFactory.getLogger(SystemUtil.class);
+    public static final Logger logger = ExtensionsLoggerFactory.getLogger(SystemUtil.class);
     public static final String WINDOWS = "windows";
     public static final DateTimeFormatter dtf = DateTimeFormat.forPattern("MMM  d HH:mm:ss yyyy ZZZ");
     public static final DateTimeFormatter dtf1 = DateTimeFormat.forPattern("MMM d HH:mm:ss yyyy ZZZ");

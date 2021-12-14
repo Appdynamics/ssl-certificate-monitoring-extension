@@ -7,8 +7,8 @@
 
 package com.appdynamics.extensions.sslcertificate;
 
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.util.Arrays;
  * Created by abey.tom on 3/31/15.
  */
 public class ProcessExecutor implements ITaskExecutor{
-    public static final Logger logger = LoggerFactory.getLogger(ProcessExecutor.class);
+    public static final Logger logger = ExtensionsLoggerFactory.getLogger(ProcessExecutor.class);
 
     public String execute(String[] commands) {
         try {
@@ -45,7 +45,7 @@ public class ProcessExecutor implements ITaskExecutor{
      * Listens to the Output Stream and gets the data.
      */
     public static class OutputReader extends Thread {
-        public static final Logger logger = LoggerFactory.getLogger(ErrorReader.class);
+        public static final Logger logger = ExtensionsLoggerFactory.getLogger(OutputReader.class);
 
         private final InputStream in;
         private StringBuffer data = new StringBuffer("");
@@ -82,7 +82,7 @@ public class ProcessExecutor implements ITaskExecutor{
      * Listens to the Error Stream and logs the response.
      */
     public static class ErrorReader extends Thread {
-        public static final Logger logger = LoggerFactory.getLogger(ErrorReader.class);
+        public static final Logger logger = ExtensionsLoggerFactory.getLogger(ErrorReader.class);
 
 
         private final InputStream in;
