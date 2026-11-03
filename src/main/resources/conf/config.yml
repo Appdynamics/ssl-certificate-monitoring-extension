@@ -19,9 +19,19 @@ domains:
     port: 443
     displayName: "amazon"
 
+  # Example: monitor a backend certificate behind a load balancer.
+  # targetHost (optional) — IP or hostname to connect to; domain is used as SNI.
+  # Without targetHost the extension connects to domain directly.
+  #- domain: "example.com"
+  #  port: 443
+  #  displayName: "Example Backend"
+  #  targetHost: "10.0.0.5"
+
 # Point to .sh for unix based and .bat for windows.
 # Incase if you are using Cygwin's openssl, please make sure to change the openssl.bat to point to Cygwin's openssl.
-# For eg. echo | C:\Cygwin64\bin\openssl s_client -connect %1:%2 2> null | C:\Cygwin64\bin\openssl x509 -noout -enddate
+# The script receives: <connectTo> <port> [sniHostname] (the 3rd argument is omitted when domain is an IP address,
+# so pass -servername only when %3 is set, see cmd/openssl.bat).
+# For eg. echo | C:\Cygwin64\bin\openssl s_client -connect %1:%2 -servername %3 2> null | C:\Cygwin64\bin\openssl x509 -noout -enddate
 cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
 #cmdFile: "monitors\\SslCertificateMonitor\\cmd\\openssl.bat"
 

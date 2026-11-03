@@ -12,6 +12,7 @@ import com.appdynamics.extensions.TasksExecutionServiceProvider;
 import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.appdynamics.extensions.util.PathResolver;
 import com.google.common.collect.Lists;
+import com.google.common.net.InetAddresses;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import org.slf4j.Logger;
 
@@ -44,6 +45,19 @@ public class SslCertificateMonitor extends ABaseMonitor {
         return Lists.newArrayList();
     }
 
+    static String[] buildCommand(String scriptPath, Map<String, ?> site) {
+        String domain = (String) site.get("domain");
+        String port = site.get("port").toString();
+        Object targetHost = site.get("targetHost");
+        String connectTo = (targetHost != null && !targetHost.toString().trim().isEmpty())
+                ? targetHost.toString().trim() : domain;
+        // The third argument is the SNI hostname; IP literals are not valid SNI values, so it is omitted for them.
+        if (InetAddresses.isInetAddress(domain)) {
+            return new String[]{scriptPath, connectTo, port};
+        }
+        return new String[]{scriptPath, connectTo, port, domain};
+    }
+
     @Override
     protected void doRun(TasksExecutionServiceProvider tasksExecutionServiceProvider) {
         Map<String, ?> config = getContextConfiguration().getConfigYml();
@@ -54,11 +68,7 @@ public class SslCertificateMonitor extends ABaseMonitor {
                 for (Map<String, ?> site : sites) {
                     File installDir = PathResolver.resolveDirectory(AManagedMonitor.class);
                     String cmdFile = (String) config.get("cmdFile");
-                    String[] command = {
-                            PathResolver.getFile(cmdFile,installDir).getPath(),
-                            (String)site.get("domain"),
-                            ((Integer)site.get("port")).toString()
-                    };
+                    String[] command = buildCommand(PathResolver.getFile(cmdFile, installDir).getPath(), site);
                     String displayName = (String) site.get("displayName");
                     //create a thread with a timeout. A timeout is needed because
                     //openssl command on windows may take forever to return. A workaround on windows is to use Cygwin's openssl.
