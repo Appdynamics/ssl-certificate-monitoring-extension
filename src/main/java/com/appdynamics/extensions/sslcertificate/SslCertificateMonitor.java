@@ -51,6 +51,10 @@ public class SslCertificateMonitor extends ABaseMonitor {
         Object targetHost = site.get("targetHost");
         String connectTo = (targetHost != null && !targetHost.toString().trim().isEmpty())
                 ? targetHost.toString().trim() : domain;
+        // OpenSSL's -connect host:port needs IPv6 literals in brackets, e.g. [2001:db8::5]:443.
+        if (connectTo.indexOf(':') >= 0 && InetAddresses.isInetAddress(connectTo)) {
+            connectTo = "[" + connectTo + "]";
+        }
         // The third argument is the SNI hostname; IP literals are not valid SNI values, so it is omitted for them.
         if (InetAddresses.isInetAddress(domain)) {
             return new String[]{scriptPath, connectTo, port};
