@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <target.dir>${project.build.directory}/SslCertificateMonitor</target.dir>
-        <runSuite>**/SslCertificateMonitorTestSuite.class</runSuite>
+        <runSuite>**/*Test.class</runSuite>
     </properties>
 
     <dependencies>
