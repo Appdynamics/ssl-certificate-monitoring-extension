@@ -65,4 +65,10 @@ public class SslCertificateMonitorTest {
         String[] cmd = SslCertificateMonitor.buildCommand("openssl.sh", site("example.com", 443, "[2001:db8::5]"));
         Assert.assertArrayEquals(new String[]{"openssl.sh", "[2001:db8::5]", "443", "example.com"}, cmd);
     }
+
+    @Test
+    public void bracketedIpv6DomainDoesNotSendSni() {
+        String[] cmd = SslCertificateMonitor.buildCommand("openssl.sh", site("[2001:db8::1]", 443, null));
+        Assert.assertArrayEquals(new String[]{"openssl.sh", "[2001:db8::1]", "443"}, cmd);
+    }
 }

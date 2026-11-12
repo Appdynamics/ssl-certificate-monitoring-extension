@@ -56,7 +56,7 @@ public class SslCertificateMonitor extends ABaseMonitor {
             connectTo = "[" + connectTo + "]";
         }
         // The third argument is the SNI hostname; IP literals are not valid SNI values, so it is omitted for them.
-        if (InetAddresses.isInetAddress(domain)) {
+        if (InetAddresses.isInetAddress(domain.replaceAll("^\\[|]$", ""))) {
             return new String[]{scriptPath, connectTo, port};
         }
         return new String[]{scriptPath, connectTo, port, domain};
