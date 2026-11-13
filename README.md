@@ -58,9 +58,10 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
 
         # Point to .sh for unix based and .bat for windows.
         # Incase if you are using Cygwin's openssl, please make sure to change the openssl.bat to point to Cygwin's openssl.
-        # For eg. echo | C:\Cygwin64\bin\openssl s_client -connect %1:%2 -servername %3 2> null | C:\Cygwin64\bin\openssl x509 -noout -enddate
-        # The script receives: <connectTo> <port> [sniHostname]. The third argument is omitted when "domain" is an IP address,
-        # so only pass -servername when %3 is set (see cmd/openssl.bat).
+        # For eg. echo | C:\Cygwin64\bin\openssl s_client -connect %1:%2 2> null | C:\Cygwin64\bin\openssl x509 -noout -enddate
+        # The script receives: <connectTo> <port> [sniHostname]. The third argument is omitted when "domain" is an IP address.
+        # Pass -servername %3 only when %3 is set; when it is not set, pass -noservername (OpenSSL 1.1.1+), otherwise OpenSSL
+        # derives SNI from the -connect hostname (see cmd/openssl.bat).
         cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
         #cmdFile: "monitors\\SslCertificateMonitor\\cmd\\openssl.bat"
 
