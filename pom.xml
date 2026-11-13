@@ -13,20 +13,20 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>ssl-certificate-monitoring-extension</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <target.dir>${project.build.directory}/SslCertificateMonitor</target.dir>
-        <runSuite>**/SslCertificateMonitorTestSuite.class</runSuite>
+        <runSuite>**/*Test.class</runSuite>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.appdynamics</groupId>
             <artifactId>appd-exts-commons</artifactId>
-            <version>2.2.15</version>
+            <version>2.2.21</version>
         </dependency>
         <dependency>
             <groupId>com.appdynamics</groupId>

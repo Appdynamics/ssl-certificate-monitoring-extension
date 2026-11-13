@@ -48,9 +48,20 @@ Please make sure to not use tab (\t) while editing yaml files. You may want to v
             port: 443
             displayName: "amazon"
 
+          # Optional: monitor a backend certificate behind a load balancer.
+          # Set targetHost to the backend IP/hostname; domain is used as the SNI value.
+          # Without targetHost the extension connects directly to domain (default behaviour).
+          - domain: "example.com"
+            port: 443
+            displayName: "Example Backend"
+            targetHost: "10.0.0.5"
+
         # Point to .sh for unix based and .bat for windows.
         # Incase if you are using Cygwin's openssl, please make sure to change the openssl.bat to point to Cygwin's openssl.
         # For eg. echo | C:\Cygwin64\bin\openssl s_client -connect %1:%2 2> null | C:\Cygwin64\bin\openssl x509 -noout -enddate
+        # The script receives: <connectTo> <port> [sniHostname]. The third argument is omitted when "domain" is an IP address.
+        # Pass -servername %3 only when %3 is set; when it is not set, pass -noservername (OpenSSL 1.1.1+), otherwise OpenSSL
+        # derives SNI from the -connect hostname (see cmd/openssl.bat).
         cmdFile: "monitors/SslCertificateMonitor/cmd/openssl.sh"
         #cmdFile: "monitors\\SslCertificateMonitor\\cmd\\openssl.bat"
 
@@ -111,8 +122,8 @@ Always feel free to fork and contribute any changes directly here on [GitHub][].
 ## Version
 |          Name            |  Version   |
 |--------------------------|------------|
-|Extension Version         |3.0.2       |
-|Last Update               |14/12/2021  |
+|Extension Version         |3.0.3       |
+|Last Update               |03/11/2026  |
 
 **Note**: While extensions are maintained and supported by customers under the open-source licensing model, they interact with agents and Controllers that are subject to [AppDynamics’ maintenance and support policy](https://docs.appdynamics.com/latest/en/product-and-release-announcements/maintenance-support-for-software-versions). Some extensions have been tested with AppDynamics 4.5.13+ artifacts, but you are strongly recommended against using versions that are no longer supported.
 
